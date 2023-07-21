@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Promodo Timer</title>
+
+    <!--Fonts-->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bagel+Fat+One&display=swap" rel="stylesheet">
+
+    <!--Icons-->
+    <script src="https://kit.fontawesome.com/f1f217d3e6.js" crossorigin="anonymous"></script>
+
+    <!--Favicon-->
+    <link rel="shortcut icon" href="assets\favicon_io\favicon.ico">
+    <link rel="apple-touch-icon" sizes="180x180" href="\assets\favicon_io\apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="\assets\favicon_io\favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="\assets\favicon_io\favicon-16x16.png">
+    <link rel="manifest" href="\assets\favicon_io\site.webmanifest">
+
+    <!--CSS-->
+    <link rel="stylesheet" href="./style.css">
+</head>
+
+<body>
+    <section> 
+        <div class="container">
+            <h1>promodo</h1>
+
+            <!-- work-break panel -->
+            <div class="panel">
+                <p id="work">work</p>
+                <p id="break">break</p>
+            </div>
+
+            <!-- Clock -->
+            <div class="timer">
+                <div id="progressBar" class="circle">
+                    <div class="progress_circle">
+                        <div class="time">
+                            <p id="minutes"></p>
+                            <p>:</p>
+                            <p id="seconds"></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Start/Pause and reset button -->
+            <div class="controls"> 
+                <button id="pause" onclick="pause()">
+                    <i class="fa-solid fa-pause"></i>
+                </button>
+
+                <button id="start" onclick="start()">
+                    <i class="fa-solid fa-play"></i>
+                </button>
+
+                <!--Create a hyperlink icon-->
+                <a id="reset" href="/Promodo/main.html">
+                    <i class="fa-solid fa-rotate-left"></i>
+                </a>
+            </div> 
+
+            <!-- Menu buttons -->
+            <div class="menuButtons">
+                <button id="toDoList">
+                    <i class="fa-solid fa-table-list"></i>
+                </button>
+
+                <button id="options" onclick="options()">
+                    <i class="fa-solid fa-gear"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Setting/Set time -->
+        <div id="optionsMenu" class="popup">
+            <div class="popupContent">
+                <button class="closeMenubtn" onclick="closePopUp()">
+                    <i class="fa-solid fa-xmark"></i>
+                </button> 
+
+                <form autocomplete="off" id="setting">
+                    <h1>Set times</h1>
+
+                    <label for="promodoInput"><b>Work time:</b></label>
+                    <input type="number" id = "promodoInput" name="work-time" placeholder="25">
+                
+                    <label for="shortBreakInput"><b>Short break time:</b></label>
+                    <input type="number" id="shortBreakInput" name="short-break" placeholder="5">
+
+                    <label for="longBreakInput"><b>Long break time:</b></label>
+                    <input type="number" id="longBreakInput" name="long-break" placeholder="15">
+                
+                    <button type="submit" class="btn Savebtn">Save changes</button>
+                </form>
+
+            </div>
+        </div>
+
+        <!-- To do list -->
+        <div id="List" class="todoPanel">
+            <div class="toDoList">
+                <form id="form" autocomplete="off">
+    
+                    <p class="alert"></p>
+                    <h2 class="title">To-do list</h2>
+                    <div class="control">
+                        <input type="text" id="entry" placeholder="e.g. some stuffs">
+                        <button type="submit" class="btn submit-btn">Submit</button>
+                        <button type="button" class="btn cancel-btn d-none">Cancel</button>
+                    </div>
+
+                </form>
+                
+                <!-- Unordered list -->
+                <ul id="todo-list" class="list-container">
+                    <!-- The tasks in the to-do list should look like this -->
+                    <!-- <li class="list-item">
+                        <p class="text">Lorem ipsum dolor sit.</p>
+                        <i class="tdlIcon fa-solid fa-pen-to-square"></i>
+                        <i class="tdlIcon fa-solid fa-check"></i>
+                        <i class="tdlIcon fa-solid fa-trash-can"></i>
+                    </li> -->
+                </ul>
+
+                <!-- Clear list button -->
+                <button class="btn clear-btn d-none">Clear Items</button>
+            </div>
+        </div>
+        
+    </section>
+
+    <!--Script-->
+    <script src="./script.js"></script>
+    
+</body>
+</html>
