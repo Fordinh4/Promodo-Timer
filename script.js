@@ -168,8 +168,15 @@ function run_clock(endtime){
             document.getElementById("seconds").innerHTML = addZero(t.seconds);
 
             //TODO: Finish the time on tab bar
-            document.title = `${addZero(t.minutes)}:${addZero(t.seconds)}`
-    
+            console.log(breakCount)
+
+            if (breakCount % 2 == 0) {
+                document.title = `${addZero(t.minutes)}:${addZero(t.seconds)} | Time for work!`;
+            } else{
+
+                document.title = `${addZero(t.minutes)}:${addZero(t.seconds)} | Time for break!`;
+            }
+
             // Display the progress indicator || Use `` instead of ''
             progressBar.style.backgroundImage = `conic-gradient(${secondaryColor} ${angle}deg, ${shadowColor} 0deg)`;
 
@@ -191,6 +198,8 @@ function run_clock(endtime){
 // Changing the panel mode
 function updatePanelMode(){
 
+    // Notify the user that the alarm has ended!
+    playSound();
     //TODO: Add the sound when update the panel at the beginning
     if (breakCount % 2 == 0) {
 
@@ -290,6 +299,11 @@ const toDoList = document.getElementById("toDoList");
 toDoList.addEventListener("click", () => {
     List.classList.add("visible");
 });
+
+function playSound(){
+    let sound = new Audio("assets\Sound\minecraft-villager-sound-effect.mp3");
+    sound.play();
+}
 
 
 // Close popup when click outside
