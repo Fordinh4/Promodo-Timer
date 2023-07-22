@@ -42,8 +42,7 @@ i {
 }
 
 h1 {
-    font-size: 3.2rem;
-    /* display: none; */
+    font-size: 3rem;
 }
 
 /*==== Content Part ====*/
@@ -56,7 +55,7 @@ section{
 }
 
 .container{
-    width: min(42.5rem,100%);/*TODO: EXPLAINNNNN and fix the width and height*/
+    width: min(42.5rem,100%);/*TODO: EXPLAINNNNN and fix the width and height using max of min*/
     margin-inline: auto;
     padding-inline: 2rem;
 
@@ -206,6 +205,9 @@ section{
 
 .popupContent h1{
     text-align: center;
+    margin-top: -2rem;
+    margin-bottom: -1rem;
+    margin-left: 1rem;
 }
 
 .popupContent label{
@@ -223,7 +225,7 @@ section{
 }
 
 .closeMenubtn{
-    margin: -2% 94%;
+    margin: 0 28.8rem;
 }
 
 .Savebtn{
@@ -270,7 +272,17 @@ section{
     width: 35rem;
     -webkit-box-shadow: 0px 0px 20px 9px var(--color-shadow); 
     box-shadow: 0px 0px 20px 9px var(--color-shadow);
+
+    max-height: 53rem;
+    overflow-y: scroll;
 }
+
+/* scroll bar inside the todo list */
+::-webkit-scrollbar {
+  width: 1px;
+  visibility: hidden;
+}
+
 
 /* alert */
 .alert{
@@ -281,6 +293,9 @@ section{
     border-radius: .25rem;
     /* font-size: 2rem; */
     text-align: center;
+
+    width: 27rem;
+    margin: 0 auto;
 }
 
 /* JS classes to notify the user about the action that just made*/
@@ -301,6 +316,8 @@ section{
 .title{
     text-align: center;
     margin-bottom: 2rem;
+    margin-left: 2rem;
+    font-size: 3rem;
 }
 
 .control{
@@ -346,6 +363,7 @@ section{
     /* To push the button to the side */
     width: 80%;
     word-wrap: break-word;
+    font-size: 1.6rem;
 }
 
 .tdlIcon{
@@ -384,6 +402,14 @@ li.liChecked .tdlIcon.fa-pen-to-square{
     display: block;
     margin: 1.2rem auto 0;
 } 
+
+#closeTDLbtn{
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+    float: right;
+    margin-right: -0.75rem;
+}
 
 .d-none{
     display: none;

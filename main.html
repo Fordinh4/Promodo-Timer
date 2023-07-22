@@ -50,11 +50,11 @@
 
             <!-- Start/Pause and reset button -->
             <div class="controls"> 
-                <button id="pause" onclick="pause()">
+                <button id="pause">
                     <i class="fa-solid fa-pause"></i>
                 </button>
 
-                <button id="start" onclick="start()">
+                <button id="start">
                     <i class="fa-solid fa-play"></i>
                 </button>
 
@@ -70,7 +70,7 @@
                     <i class="fa-solid fa-table-list"></i>
                 </button>
 
-                <button id="options" onclick="options()">
+                <button id="optionsbtn">
                     <i class="fa-solid fa-gear"></i>
                 </button>
             </div>
@@ -79,10 +79,10 @@
         <!-- Setting/Set time -->
         <div id="optionsMenu" class="popup">
             <div class="popupContent">
-                <button class="closeMenubtn" onclick="closePopUp()">
+                <button class="closeMenubtn" id="closeMenubtn">
                     <i class="fa-solid fa-xmark"></i>
                 </button> 
-
+                
                 <form autocomplete="off" id="setting">
                     <h1>Set times</h1>
 
@@ -104,9 +104,12 @@
         <!-- To do list -->
         <div id="List" class="todoPanel">
             <div class="toDoList">
+                <button id="closeTDLbtn">
+                    <i class="fa-solid fa-xmark"></i>
+                </button> 
                 <form id="form" autocomplete="off">
-    
                     <p class="alert"></p>
+                    
                     <h2 class="title">To-do list</h2>
                     <div class="control">
                         <input type="text" id="entry" placeholder="e.g. some stuffs">

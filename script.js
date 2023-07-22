@@ -1,24 +1,35 @@
 // TODO: Make the chapter like thingy for easier nav in my code
-// Variables
-// document.documentElement == :root in css
+// ====> Variables
 const secondaryColor = getComputedStyle(document.documentElement).getPropertyValue("--color-secondary"); 
 const shadowColor = getComputedStyle(document.documentElement).getPropertyValue("--color-shadow");
 
+// The setting button to open/close 
+const closeMenubtn = document.getElementById("closeMenubtn");
+const optionsbtn = document.getElementById("optionsbtn");
+
+// The progress bar
 const progressBar = document.getElementById("progressBar");
 
+// The promodo clock and the panel
 const workTittle = document.getElementById('work');
 const breakTittle = document.getElementById('break');
 const setting = document.getElementById("setting");
 const promodoInput = document.getElementById("promodoInput");
 const shortBreakInput = document.getElementById("shortBreakInput");
 const longBreakInput = document.getElementById("longBreakInput");
+// Start button
+const startbtn = document.getElementById("start");
+// Pause button
+const pausebtn = document.getElementById("pause");
 
+// Promodo modes
 let workTime;
 let shortBreakTime ;
 let longBreakTime;
 let breakCount = 0;
+let timeonTab = " | Time for work!";
 
-// Calculate the future time (Ex: 10 min from now)
+// For the calculation of the promodo clock
 let time_in_minutes;
 let current_time;
 let futureTime; 
@@ -26,19 +37,191 @@ let time_left; // time left on the clock when paused
 let begin = false; // The user first press the count down
 let timeInterval;
 
-// Local storage for the clock
+// For the todo list
+const entry = document.getElementById("entry");
+const form = document.getElementById("form"); 
+const ul = document.getElementById("todo-list");
+const alertP = document.querySelector('.alert'); // allows you to select elements from the document using CSS selectors
+// For the buttons
+const clearBtn = document.querySelector('.clear-btn');
+const submitBtn = document.querySelector('.submit-btn');
+const cancelBtn = document.querySelector('.cancel-btn');
+const toDoList = document.getElementById("toDoList");
+const closeTDLbtn = document.getElementById("closeTDLbtn");
+// For the edit part
+let editFlag = false;
+let editElement; // an HTML element initially undefined and global for editing
+let editID; // Both of these and the above one are undefined
+
+// Local storage
 let promodoLSKey = "PromodoClock";
-// ============================
+let LSkey = 'TodoList';
 
-// ======= The clock, panel mode, and the buttons
-// Display
-window.addEventListener('DOMContentLoaded', setupPromodoSetting());
+//=======> For when DOMContentLoaded=> to display and edit the local storage when the page load
+window.addEventListener('DOMContentLoaded', setupPromodoSetting);
+window.addEventListener('DOMContentLoaded', setupItems);
 
+
+
+// =======> The clock, panel mode, and the buttons
+function addZero(num) {
+    // Function to display leading 0
+    if (num < 10) {
+        return "0" + num;
+    }
+    else {
+        return num;
+    }
+}
+
+// Calculate the remaining time
+function time_remaining(endtime){
+    // To calculate the remaining time by using the future time - time that count rn (all in milliseconds)
+    // The reason why i use date.now() instead of Date.parse(new Date() is because i want the smooth kinda-animation of the progress bar!
+
+	var t = Date.parse(endtime) - Date.now();
+	var seconds = Math.floor((t/1000) % 60);
+	var minutes = Math.floor((t/60000));
+	return {'total':t, 'minutes':minutes, 'seconds':seconds}; // return an object
+}
+
+// For time count down and progress bar
+function run_clock(endtime){
+	function update_clock(){
+        // function will start after the play button
+        if (begin) {
+            var t = time_remaining(endtime); // Create an object name t
+            var setTime = time_in_minutes * 60000;
+            var angle = (t.total / setTime) * 360;
+    
+            // Display minutes and seconds
+            document.getElementById("minutes").innerHTML = addZero(t.minutes);
+            document.getElementById("seconds").innerHTML = addZero(t.seconds);
+
+            // Display remaining time and mode on tab bar
+            document.title = `${addZero(t.minutes)}:${addZero(t.seconds)}${timeonTab}`;
+
+            // Display the progress indicator || Use `` instead of ''
+            progressBar.style.backgroundImage = `conic-gradient(${secondaryColor} ${angle}deg, ${shadowColor} 0deg)`;
+
+            // If the clock hit 00:00 then do this
+            if(t.total <= 0){ 
+                clearInterval(timeInterval); 
+                document.title = `00:00${timeonTab}`;
+                document.getElementById("minutes").innerHTML = "00";
+                document.getElementById("seconds").innerHTML = "00";
+
+                // Notify the user that the alarm has ended!
+                playSound();
+
+                // Wait for 1 sec before change to another mode
+                setTimeout(updatePanelMode, 1000);
+            }
+        } 
+	}
+
+	update_clock(); // run function once at first to avoid delay
+	timeInterval = setInterval(update_clock);
+}
+
+// Changing the panel mode
+function updatePanelMode(){
+    if (breakCount % 2 == 0) {
+
+            // breakCount > 0 to avoid the first break
+            if (breakCount > 0 && breakCount % 6 == 0) {
+                // Start long break
+                timeonTab = " | Time for a long break!";
+                time_in_minutes = longBreakTime;
+                breakCount ++;
+
+                // Change the panel mode
+                workTittle.classList.remove("active");
+                breakTittle.classList.add("active");
+                
+                // Run the clock
+                current_time = Date.parse(new Date());
+                futureTime = new Date(current_time + time_in_minutes * 60000);
+                run_clock(futureTime);
+
+            } else {
+                // Start short break
+                timeonTab = " | Time for a short break!";
+                time_in_minutes = shortBreakTime;
+                breakCount ++;
+
+                // Change the panel mode
+                workTittle.classList.remove("active");
+                breakTittle.classList.add("active");
+                
+                // Run the clock
+                current_time = Date.parse(new Date());
+                futureTime = new Date(current_time + time_in_minutes * 60000);
+                run_clock(futureTime);
+                }
+        
+    } else{
+        // continue work
+        timeonTab = " | Time for work!";
+        time_in_minutes = workTime;
+        breakCount ++;
+
+        // Change the panel mode
+        breakTittle.classList.remove("active");
+        workTittle.classList.add("active");
+
+        // Run the clock
+        current_time = Date.parse(new Date());
+        futureTime = new Date(current_time + time_in_minutes * 60000);
+        run_clock(futureTime);
+    }
+    
+}
+
+// Play sound for every work/break
+function playSound(){
+    let sound = new Audio("assets/Sound/minecraft-villager-sound-effect.mp3");
+    sound.play();
+}
+
+// The play/start button
 setting.addEventListener("submit", saveChange);
 
+pausebtn.addEventListener("click", () => {
+    // The pause button
+    document.getElementById('start').style.display = "inline-block";
+    document.getElementById('pause').style.display = "none";
+
+    clearInterval(timeInterval); // stop the clock
+    time_left = futureTime.getTime() - Date.now();// preserve remaining time
+
+});
+
+startbtn.addEventListener("click", () => {
+    document.getElementById('start').style.display = "none";
+    document.getElementById('pause').style.display = "inline-block";
+
+    // Update the deadline to preserve the amount of time remaining
+    if (!begin) {
+        // For the first time clicking the play button
+        begin = true;
+        current_time = Date.parse(new Date()); //date.parse mean convert that time to milliseconds
+        futureTime = new Date(current_time + time_in_minutes * 60000); // its mean that the future time will be the date object that take that sum as milliseconds
+
+        run_clock(futureTime);
+    }
+    else {
+        futureTime = new Date(Date.now() + time_left);
+
+        // Start the clock
+        run_clock(futureTime);
+    }
+});
+
+// Change time/ Local storage for promodo clock
 function saveChange(e) {
     e.preventDefault();
-    if (promodoInput && shortBreakInput && longBreakInput) {
+    if (promodoInput.value && shortBreakInput.value && longBreakInput.value) {
         let promodoVal = promodoInput.value;
         let shortBreakVal= shortBreakInput.value;
         let longBreakVal = longBreakInput.value;
@@ -83,7 +266,7 @@ function saveChange(e) {
     }
 }
 
-
+// Local storage for promodo clock
 function addToPromodoLS(mode, val) {
     let items = getPromodoLS();
     items[mode] = val;
@@ -92,15 +275,15 @@ function addToPromodoLS(mode, val) {
 }
 
 function getPromodoLS() {
-    // TODO: merge the local storage function
     const data = localStorage.getItem(promodoLSKey);
     if (data) return JSON.parse(data);
     return {};
 }
 
 
-// Load the promodo time
-    
+
+//=======> Setting panel
+// Load the promodo time from local storage if there are any
 function setupPromodoSetting(){
     // Function to display the promodo data from local storage if they have any
     let modes = getPromodoLS();
@@ -128,183 +311,20 @@ function setupPromodoSetting(){
     document.getElementById("seconds").innerHTML = "00";
 
     workTittle.classList.add("active");
-
 }
 
-
-
-function addZero(num) {
-    // Function to display leading 0
-    if (num < 10) {
-        return "0" + num;
-    }
-    else {
-        return num;
-    }
-}
-
-// Calculate the remaining time
-function time_remaining(endtime){
-    // To calculate the remaining time by using the future time - time that count rn (all in milliseconds)
-    // The reason why i use date.now() instead of Date.parse(new Date() is because i want the smooth kinda-animation of the progress bar!
-
-	var t = Date.parse(endtime) - Date.now();
-	var seconds = Math.floor((t/1000) % 60);
-	var minutes = Math.floor((t/60000));
-	return {'total':t, 'minutes':minutes, 'seconds':seconds}; // return an object
-}
-
-// For time count down and progress bar
-function run_clock(endtime){
-	function update_clock(){
-        // function will start after the play button
-        if (begin) {
-            var t = time_remaining(endtime); // Create an object name t
-            var setTime = time_in_minutes * 60000;
-            var angle = (t.total / setTime) * 360;
-    
-            // Display minutes and seconds
-            document.getElementById("minutes").innerHTML = addZero(t.minutes);
-            document.getElementById("seconds").innerHTML = addZero(t.seconds);
-
-            //TODO: Finish the time on tab bar
-            console.log(breakCount)
-
-            if (breakCount % 2 == 0) {
-                document.title = `${addZero(t.minutes)}:${addZero(t.seconds)} | Time for work!`;
-            } else{
-
-                document.title = `${addZero(t.minutes)}:${addZero(t.seconds)} | Time for break!`;
-            }
-
-            // Display the progress indicator || Use `` instead of ''
-            progressBar.style.backgroundImage = `conic-gradient(${secondaryColor} ${angle}deg, ${shadowColor} 0deg)`;
-
-            if(t.total <= 0){ 
-                clearInterval(timeInterval); 
-                document.getElementById("minutes").innerHTML = "00";
-                document.getElementById("seconds").innerHTML = "00";
-
-                // Wait for 1 sec before change to another mode
-                setTimeout(updatePanelMode, 1000);
-            }
-        } 
-	}
-
-	update_clock(); // run function once at first to avoid delay
-	timeInterval = setInterval(update_clock);
-}
-
-// Changing the panel mode
-function updatePanelMode(){
-
-    // Notify the user that the alarm has ended!
-    playSound();
-    //TODO: Add the sound when update the panel at the beginning
-    if (breakCount % 2 == 0) {
-
-            // breakCount > 0 to avoid the first break
-            if (breakCount > 0 && breakCount % 6 == 0) {
-                // Start long break
-                time_in_minutes = longBreakTime;
-                breakCount ++;
-
-                // Change the panel mode
-                workTittle.classList.remove("active");
-                breakTittle.classList.add("active");
-                
-                // Run the clock
-                current_time = Date.parse(new Date());
-                futureTime = new Date(current_time + time_in_minutes * 60000);
-                run_clock(futureTime);
-
-            } else {
-                // Start short break
-                time_in_minutes = shortBreakTime;
-                breakCount ++;
-
-                // Change the panel mode
-                workTittle.classList.remove("active");
-                breakTittle.classList.add("active");
-                
-                // Run the clock
-                current_time = Date.parse(new Date());
-                futureTime = new Date(current_time + time_in_minutes * 60000);
-                run_clock(futureTime);
-                }
-        
-    } else{
-        // continue work
-        time_in_minutes = workTime;
-        breakCount ++;
-
-        // Change the panel mode
-        breakTittle.classList.remove("active");
-        workTittle.classList.add("active");
-
-        // Run the clock
-        current_time = Date.parse(new Date());
-        futureTime = new Date(current_time + time_in_minutes * 60000);
-        run_clock(futureTime);
-    }
-    
-}
-
-// The pause button
-function pause(){
-    document.getElementById('start').style.display = "inline-block";
-    document.getElementById('pause').style.display = "none";
-
-    clearInterval(timeInterval); // stop the clock
-    time_left = futureTime.getTime() - Date.now();// preserve remaining time
-}
-
-// The play/start button
-function start(){
-    document.getElementById('start').style.display = "none";
-    document.getElementById('pause').style.display = "inline-block";
-
-    // Update the deadline to preserve the amount of time remaining
-    if (!begin) {
-        // For the first time clicking the play button
-        begin = true;
-        current_time = Date.parse(new Date()); //date.parse mean convert that time to milliseconds
-        futureTime = new Date(current_time + time_in_minutes * 60000); // its mean that the future time will be the date object that take that sum as milliseconds
-
-        run_clock(futureTime);
-    }
-    else {
-    futureTime = new Date(Date.now() + time_left);
-
-    // Start the clock
-    run_clock(futureTime);
-    }
-}
-
+// Setting buttons
 // Close pop up
-function closePopUp() {
+closeMenubtn.addEventListener("click", () => {
     var optionsMenu = document.getElementsByClassName("popup")[0];
     optionsMenu.classList.remove("visible");
-  }
-//TODO: change to event listener based on which one is click and remove or add visible to the corresponding menu
-  
-// Option pop up
-function options() {
-    var optionsMenu = document.getElementsByClassName("popup")[0];
-    optionsMenu.classList.add("visible");
-}
-
-//TODO: make every onclick like this
-const toDoList = document.getElementById("toDoList");
-toDoList.addEventListener("click", () => {
-    List.classList.add("visible");
 });
 
-function playSound(){
-    let sound = new Audio("assets\Sound\minecraft-villager-sound-effect.mp3");
-    sound.play();
-}
-
+// Option pop up
+optionsbtn.addEventListener("click", () => {
+    var optionsMenu = document.getElementsByClassName("popup")[0];
+    optionsMenu.classList.add("visible");
+});
 
 // Close popup when click outside
 window.onclick = function(e){
@@ -318,33 +338,20 @@ window.onclick = function(e){
 }
 
 
-// ========> To do list pop up
-const entry = document.getElementById("entry");
-const form = document.getElementById("form"); 
-const ul = document.getElementById("todo-list");
-const alertP = document.querySelector('.alert'); // allows you to select elements from the document using CSS selectors
 
-const clearBtn = document.querySelector('.clear-btn');
-const submitBtn = document.querySelector('.submit-btn');
-const cancelBtn = document.querySelector('.cancel-btn');
+//========> To do list pop up
+// Todo List buttons
 
-// For the edit part
-let editFlag = false;
-let editElement; // an HTML element initially undefined and global for editing
-let editID; // Both of these and the above one are undefined
-
-// Local storage
-let LSkey = 'TodoList';
-
-// Load the local storage with the window global object => to display and edit the local storage when the page load
-window.addEventListener('DOMContentLoaded', setupItems);
-
-// With the form we can attach the listener to the submit button to another function
 form.addEventListener("submit", addItem);
-// addItem fucntion as an event handler for the form's submit event, to be executed when the form is submitted. While addItem() will do the same thing but it will assigns its return value (if any) as the event handler for the submit event
 clearBtn.addEventListener("click", clearItems);
 cancelBtn.addEventListener("click", setBackToDefault);
-
+toDoList.addEventListener("click", () => {
+    List.classList.add("visible");
+});
+closeTDLbtn.addEventListener("click", () => {
+    var closeTDLbtn = document.getElementById("List");
+    closeTDLbtn.classList.remove("visible");
+});
 
 function addItem(e) {
     // To prevent the website to refresh when pressing submit
@@ -389,7 +396,6 @@ function createLis(val, id) {
     // TODO: set another boolean parameter for the strike thru || check task
 
     // create each li|list-item == text value with the buttons inside the id = "todo-list"
-    // and cuz this one will get create every time, we can use const
     const li = document.createElement('li');
     li.className = "list-item";
     li.setAttribute('data-id', id); // set the unique id for this task|list-item
@@ -399,14 +405,12 @@ function createLis(val, id) {
         <i class="tdlIcon fa-solid fa-check"></i>
         <i class="tdlIcon fa-solid fa-trash-can"></i>`;
 
-    // icons => create the event listeners for each buttons for every li class = list-item
     li.querySelector(".tdlIcon.fa-pen-to-square").addEventListener("click", editItem);
     li.querySelector(".tdlIcon.fa-check").addEventListener("click", checkItem);
     li.querySelector(".tdlIcon.fa-trash-can").addEventListener("click", deleteItem);
 
     ul.append(li);
 }
-
 
 // The to-do list buttons
 //   the keyword 'this' mean the icon itself
@@ -454,10 +458,9 @@ function deleteItem(){
     removeFromLS(id);
 }
 
-
 function displayAlert(msg, styles){
-    // This function will display the notif after the user do sth
-    // It will get add in class="alert"
+    // This function will display the notification after the user do sth inside the to do list
+    // It will get add in class="alert" in html
     alertP.innerText = msg; // Only set the text content and not the HTMl tag
     alertP.classList.add(styles);
 
@@ -473,9 +476,8 @@ function clearItems(){
     ul.innerHTML = null;
     displayAlert("All items were removed!", "alert-danger");
     clearBtn.classList.add('d-none'); 
-
+    
     //Local storage
-    // Set the todo list value to [] and not localStorage.clear() because i need to save the value for promodo time
     localStorage.setItem(LSkey, JSON.stringify([]));
 
 }
@@ -497,8 +499,7 @@ function setBackToDefault(){
     clearBtn.classList.remove("d-none");
 }
 
-
-// Local storage
+// Local storage for Todo List
 function addtoLS(val, id) {
     // It's the object shorthand syntax which mean obj={id: someid, value: somevalue}
     let obj = {id, val};
@@ -541,7 +542,6 @@ function editLS(val, editID){
     localStorage.setItem(LSkey, JSON.stringify(items));
 }
 
-
 function setupItems() {
     // Go through each task from to do list local storage and show it to the user when the page load
     // TODO: make another flag or an array to make sure that item is checked in the local storage
@@ -556,5 +556,4 @@ function setupItems() {
         })
         clearBtn.classList.remove("d-none");
     }
-    
 }
