@@ -45,7 +45,7 @@ h1 {
     font-size: 3rem;
 }
 
-/*==== Content Part ====*/
+/*==== Promodo Part ====*/
 
 section{
     /*flex is the item length, relative to others inside the container, and the default direction of flex is in row*/
@@ -55,10 +55,9 @@ section{
 }
 
 .container{
-    width: min(42.5rem,100%);/*TODO: EXPLAINNNNN and fix the width and height using max of min*/
+    width: min(42.5rem,100%);
     margin-inline: auto;
     padding-inline: 2rem;
-
     display: flex;
     flex-direction: column;
 
@@ -182,6 +181,7 @@ section{
     background-color: rgba(0, 0, 0, 0.4);  
 }
 
+/* JS class for setting and todo list panels */
 .popup.visible{
     /*When this class is added to the .popup, the transition of opacity and visibility will begin*/
     opacity: 1; /* Changing from 0 to 1 with the transition ease*/

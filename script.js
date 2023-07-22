@@ -1,4 +1,3 @@
-// TODO: Make the chapter like thingy for easier nav in my code
 // ====> Variables
 const secondaryColor = getComputedStyle(document.documentElement).getPropertyValue("--color-secondary"); 
 const shadowColor = getComputedStyle(document.documentElement).getPropertyValue("--color-shadow");
@@ -393,8 +392,6 @@ function addItem(e) {
 }
 
 function createLis(val, id) {
-    // TODO: set another boolean parameter for the strike thru || check task
-
     // create each li|list-item == text value with the buttons inside the id = "todo-list"
     const li = document.createElement('li');
     li.className = "list-item";
@@ -436,8 +433,6 @@ function editItem(){
 }
 
 function checkItem(){
-    // TODO: use the same method of set up ls -> for each one, add 1 more key to the obj which is strike:false, and if false then it will strike thru else nah
-
     // The same as li.list-item
     this.parentElement.classList.toggle('liChecked');
 }
@@ -544,7 +539,6 @@ function editLS(val, editID){
 
 function setupItems() {
     // Go through each task from to do list local storage and show it to the user when the page load
-    // TODO: make another flag or an array to make sure that item is checked in the local storage
     let items = getLS()
 
     if(items.length > 0){
