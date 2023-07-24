@@ -2,6 +2,11 @@
 const secondaryColor = getComputedStyle(document.documentElement).getPropertyValue("--color-secondary"); 
 const shadowColor = getComputedStyle(document.documentElement).getPropertyValue("--color-shadow");
 
+// The line that should fix the audio issue on Safari
+var sound = new Howl({
+    src: ['assets/Sound/minecraft-villager-sound-effect.mp3']
+});
+
 // The setting button to open/close 
 const closeMenubtn = document.getElementById("closeMenubtn");
 const optionsbtn = document.getElementById("optionsbtn");
@@ -179,8 +184,6 @@ function updatePanelMode(){
 
 // Play sound for every work/break
 function playSound(){
-    let sound = new Audio("assets/Sound/minecraft-villager-sound-effect.mp3");
-    sound.load(); // The line that should fix the audio issue on safari
     sound.play();
 }
 
