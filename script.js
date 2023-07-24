@@ -10,6 +10,8 @@ var sound = new Howl({
 // The setting button to open/close 
 const closeMenubtn = document.getElementById("closeMenubtn");
 const optionsbtn = document.getElementById("optionsbtn");
+var optionsMenu = document.getElementsByClassName("popup")[0];
+
 
 // The progress bar
 const progressBar = document.getElementById("progressBar");
@@ -241,7 +243,11 @@ function saveChange(e) {
     document.getElementById("minutes").innerHTML = addZero(workTime);
     document.getElementById("seconds").innerHTML = "00";
 
+    // Update the work panel
     workTittle.classList.add("active");
+    breakTittle.classList.remove("active");
+
+    // Close the setting
     optionsMenu.classList.remove("visible");
 
     // Reset the clock
@@ -320,13 +326,11 @@ function setupPromodoSetting(){
 // Setting buttons
 // Close pop up
 closeMenubtn.addEventListener("click", () => {
-    var optionsMenu = document.getElementsByClassName("popup")[0];
     optionsMenu.classList.remove("visible");
 });
 
 // Option pop up
 optionsbtn.addEventListener("click", () => {
-    var optionsMenu = document.getElementsByClassName("popup")[0];
     optionsMenu.classList.add("visible");
 });
 
