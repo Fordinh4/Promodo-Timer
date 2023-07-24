@@ -10,11 +10,11 @@ Users can configure adjustable work and break periods to suit their preferences 
 
 During the development of this project, several challenges were encountered, including:
 
-1. **Implementing Sound Notifications**: Integrating the sound notification feature for work and break intervals necessitated the search for a dependable solution that worked across several devices and browsers. The "Howler.js" library was used to provide a smooth audio playback solution, ensuring that users received timely alerts while switching between work and break modes.
+1. **Implementing Sound Notifications**: Implementing Sound Notifications: The "Howler.js" library  was used in this project to address the issue of notification sounds not playing on some devices, primarily the Safari browser for iPhone and MacBook users. By include this library, customers who have their device's ringer on or silent mode turned off can now get audio alerts in between each period. With the help of this technology, audio playback is guaranteed to be straightforward, giving users the ability to organise their work and break times efficiently.
 
-2. **Handling Local Storage**: It was challenging to store and retrieve data from the browser's local storage when the to-do list function and the user's timer settings were implemented. Users can save tasks and timer preferences even when the browser is closed thanks to JavaScript's use of the local storage API. Users may restart work sessions and keep their to-do list across sessions thanks to this seamless and personalised experience.
+2. **Handling Local Storage**: It was challenging to store and retrieve data from the browser's local storage when the to-do list function and the user's timer settings were implemented. Users can save tasks and timer preferences even when the browser is closed thanks to JavaScript's use of the local storage API. Users may restart work sessions and keep their to-do list across sessions thanks to this personalized experience.
 
-3. **Responsive Design for Mobile Devices**: Ensuring that the web application's interface is responsive and user-friendly on various screen sizes and devices required careful design considerations. The application needed to adapt its layout and components to provide a seamless experience for users on both desktop and mobile devices.
+3. **Responsive Design for Mobile Devices**: Ensuring that the web application's interface is responsive and user-friendly on various screen sizes and devices required careful design considerations. The application needed to adapt its layout and components to provide a convenient experience for users on both desktop and mobile devices.
 
 ## 📝 Features
 
@@ -30,7 +30,7 @@ During the development of this project, several challenges were encountered, inc
 - HTML: The markup language used for structuring the web page.
 - CSS: Styling the application for an aesthetically pleasing user experience.
 - JavaScript: Adding interactivity and functionality to the web application.
-- [Howler.js](https://howlerjs.com/): A JavaScript library for seamless audio playback and sound management across all platforms.
+- [Howler.js](https://howlerjs.com/): A JavaScript library for audio playback and sound management across all platforms.
 
 ## 💁‍♂️ How to Use
 
@@ -63,7 +63,7 @@ The Promodo Timer web application has great potential for improvement and enhanc
 
 4. **Drag and Drop To-Do List**: Implementing the ability to move items within the to-do list will offer users greater flexibility in organizing their tasks. Users can reorder tasks by dragging and dropping them, making task management more intuitive and efficient.
 
-5. **Persistent Strikethrough**: Saving the strikethrough state of completed tasks in the local storage will ensure that the completed tasks remain marked even after the application is closed and reopened. This improvement will provide a seamless and consistent user experience when managing their to-do list.
+5. **Persistent Strikethrough**: Saving the strikethrough state of completed tasks in the local storage will ensure that the completed tasks remain marked even after the application is closed and reopened. This improvement will provide a consistent user experience when managing their to-do list.
 
 6. **Color Palettes**: Adding color palettes will allow users to personalize the application's visual appearance according to their preferences. Offering a selection of color themes will enhance user satisfaction and engagement with the application.
 
