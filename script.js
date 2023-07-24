@@ -220,49 +220,50 @@ startbtn.addEventListener("click", () => {
 // Change time/ Local storage for promodo clock
 function saveChange(e) {
     e.preventDefault();
-    if (promodoInput.value && shortBreakInput.value && longBreakInput.value) {
-        let promodoVal = promodoInput.value;
-        let shortBreakVal= shortBreakInput.value;
-        let longBreakVal = longBreakInput.value;
+    
+    // These line checks if the inputted value is valid or not and convert to int if True, otherwise it assigns workTime/shortBreakTime/longBreakTime as the default value
+    let promodoVal = promodoInput.value ? parseInt(promodoInput.value) : workTime;
+    let shortBreakVal= shortBreakInput.value ? parseInt(shortBreakInput.value) : shortBreakTime;
+    let longBreakVal = longBreakInput.value ? parseInt(longBreakInput.value) : longBreakTime;
 
-        // Change the time and the break count
-        breakCount = 0;
-        workTime = promodoVal;
-        shortBreakTime = shortBreakVal;
-        longBreakTime = longBreakVal;
-        time_in_minutes = workTime;
+    // Change the time and the break count
+    breakCount = 0;
+    workTime = promodoVal;
+    shortBreakTime = shortBreakVal;
+    longBreakTime = longBreakVal;
+    time_in_minutes = workTime;
 
-        // Set everything back to default
-        document.getElementById("minutes").innerHTML = addZero(workTime);
-        document.getElementById("seconds").innerHTML = "00";
+    // Set everything back to default
+    document.getElementById("minutes").innerHTML = addZero(workTime);
+    document.getElementById("seconds").innerHTML = "00";
 
-        workTittle.classList.add("active");
-        optionsMenu.classList.remove("visible");
+    workTittle.classList.add("active");
+    optionsMenu.classList.remove("visible");
 
-        // Reset the clock
-        begin = false;
-        clearInterval(timeInterval);
-        
-        // Change the pause button to play button again if changing during its count down
-        document.getElementById('start').style.display = "inline-block";
-        document.getElementById('pause').style.display = "none";
-        progressBar.style.backgroundImage = `conic-gradient(${secondaryColor} 360deg, ${shadowColor} 0deg)`;
+    // Reset the clock
+    begin = false;
+    clearInterval(timeInterval);
+    
+    // Change the pause button to play button again if changing during its count down
+    document.getElementById('start').style.display = "inline-block";
+    document.getElementById('pause').style.display = "none";
+    progressBar.style.backgroundImage = `conic-gradient(${secondaryColor} 360deg, ${shadowColor} 0deg)`;
 
-        // Change the placeholder for the input field
-        promodoInput.placeholder = workTime;
-        shortBreakInput.placeholder = shortBreakVal;
-        longBreakInput.placeholder = longBreakVal;
+    // Change the placeholder for the input field
+    promodoInput.placeholder = workTime;
+    shortBreakInput.placeholder = shortBreakVal;
+    longBreakInput.placeholder = longBreakVal;
 
-        // Reset the input field
-        promodoInput.value = '';
-        shortBreakInput.value = '';
-        longBreakInput.value = '';
+    // Reset the input field
+    promodoInput.value = '';
+    shortBreakInput.value = '';
+    longBreakInput.value = '';
 
-        // Overwrite/Edit on local storage about the promodo
-        addToPromodoLS("workTime", workTime);
-        addToPromodoLS("shortBreakTime", shortBreakTime);
-        addToPromodoLS("longBreakTime", longBreakTime);
-    }
+    // Overwrite/Edit on local storage about the promodo
+    addToPromodoLS("workTime", workTime);
+    addToPromodoLS("shortBreakTime", shortBreakTime);
+    addToPromodoLS("longBreakTime", longBreakTime);
+    
 }
 
 // Local storage for promodo clock
