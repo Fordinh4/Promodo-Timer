@@ -180,6 +180,7 @@ function updatePanelMode(){
 // Play sound for every work/break
 function playSound(){
     let sound = new Audio("assets/Sound/minecraft-villager-sound-effect.mp3");
+    sound.load(); // The line that should fix the audio issue on safari
     sound.play();
 }
 
@@ -220,7 +221,7 @@ startbtn.addEventListener("click", () => {
 // Change time/ Local storage for promodo clock
 function saveChange(e) {
     e.preventDefault();
-    
+
     // These line checks if the inputted value is valid or not and convert to int if True, otherwise it assigns workTime/shortBreakTime/longBreakTime as the default value
     let promodoVal = promodoInput.value ? parseInt(promodoInput.value) : workTime;
     let shortBreakVal= shortBreakInput.value ? parseInt(shortBreakInput.value) : shortBreakTime;

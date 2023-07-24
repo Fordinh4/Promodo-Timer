@@ -171,7 +171,6 @@ section{
 .popup{
     opacity: 0;
     visibility: hidden;
-    transition: opacity 0.5s ease, visibility 0s 0.3s;
     position: fixed;
     z-index: 1;
     left: 0;
@@ -186,7 +185,6 @@ section{
     /*When this class is added to the .popup, the transition of opacity and visibility will begin*/
     opacity: 1; /* Changing from 0 to 1 with the transition ease*/
     visibility: visible;
-    transition-delay: 0s; /* Ensuring that the transitions take effect immediately without any delay.*/
 }
 
 /* The main panel */
@@ -245,7 +243,6 @@ section{
 .todoPanel{
     opacity: 0;
     visibility: hidden;
-    transition: opacity 0.5s ease, visibility 0s 0.3s;
     position: fixed;
     z-index: 1;
     left: 0;
@@ -258,7 +255,6 @@ section{
 .todoPanel.visible{
     opacity: 1; 
     visibility: visible;
-    transition-delay: 0s; 
 }
 
 .toDoList{
