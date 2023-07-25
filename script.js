@@ -243,6 +243,9 @@ function saveChange(e) {
     document.getElementById("minutes").innerHTML = addZero(workTime);
     document.getElementById("seconds").innerHTML = "00";
 
+    // Set the page title to default
+    document.title ="Promodo Timer";
+
     // Update the work panel
     workTittle.classList.add("active");
     breakTittle.classList.remove("active");
