@@ -6,16 +6,6 @@ Promodo Timer is a productivity web application that helps users manage their ti
 
 Users can configure adjustable work and break periods to suit their preferences and work patterns with this web application. A notification sound will indicate the time to take a break when the work interval expires, and vice versa. Users can also keep a to-do list within the app to help them stay organized and productive.
 
-## 🧩 Problems and Solutions
-
-During the development of this project, several challenges were encountered, including:
-
-1. **Implementing Sound Notifications**: Implementing Sound Notifications: The "Howler.js" library  was used in this project to address the issue of notification sounds not playing on some devices, primarily the Safari browser for iPhone and MacBook users. By include this library, customers who have their device's ringer on or silent mode turned off can now get audio alerts in between each period. With the help of this technology, audio playback is guaranteed to be straightforward, giving users the ability to organise their work and break times efficiently.
-
-2. **Handling Local Storage**: It was challenging to store and retrieve data from the browser's local storage when the to-do list function and the user's timer settings were implemented. Users can save tasks and timer preferences even when the browser is closed thanks to JavaScript's use of the local storage API. Users may restart work sessions and keep their to-do list across sessions thanks to this personalized experience.
-
-3. **Responsive Design for Mobile Devices**: Ensuring that the web application's interface is responsive and user-friendly on various screen sizes and devices required careful design considerations. The application needed to adapt its layout and components to provide a convenient experience for users on both desktop and mobile devices.
-
 ## 📝 Features
 
 - Customizable work and break intervals to cater to individual preferences.
@@ -42,7 +32,16 @@ During the development of this project, several challenges were encountered, inc
 6. The to-do list feature allows users to enter tasks and keep track of their progress.
 7. Click the "To-do list" button to access and manage your tasks.
 
-Feel free to use the Promodo Timer web application to improve your productivity and time management!
+## 🧩 Problems and Solutions
+
+During the development of this project, several challenges were encountered, including:
+
+1. **Implementing Sound Notifications**: Implementing Sound Notifications: The "Howler.js" library  was used in this project to address the issue of notification sounds not playing on some devices, primarily the Safari browser for iPhone and MacBook users. By include this library, customers who have their device's ringer on or silent mode turned off can now get audio alerts in between each period. With the help of this technology, audio playback is guaranteed to be straightforward, giving users the ability to organise their work and break times efficiently.
+
+2. **Handling Local Storage**: It was challenging to store and retrieve data from the browser's local storage when the to-do list function and the user's timer settings were implemented. Users can save tasks and timer preferences even when the browser is closed thanks to JavaScript's use of the local storage API. Users may restart work sessions and keep their to-do list across sessions thanks to this personalized experience.
+
+3. **Responsive Design for Mobile Devices**: Ensuring that the web application's interface is responsive and user-friendly on various screen sizes and devices required careful design considerations. The application needed to adapt its layout and components to provide a convenient experience for users on both desktop and mobile devices.
+
 
 ## 👀 Preview
 
